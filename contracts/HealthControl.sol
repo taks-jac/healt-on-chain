@@ -12,48 +12,34 @@ contract HealthControl is AccessControl {
   bytes32 public constant ROLE_DOCTOR = keccak256("ROLE_DOCTOR");
   bytes32 public constant ROLE_USER = keccak256("ROLE_USER");
 
+  mapping(address => bytes32) private _doctorRegister;
+  mapping(address => bytes32) private _userRegister;
+
+  event DoctorAdded(address indexed doctor, bytes32 indexed cid, string message); 
+  event UserAdded(address indexed user, bytes32 indexed cid, string message); 
+
   constructor (address admin) {
     _setupRole(ROLE_ADMIN, admin);
     _setRoleAdmin(ROLE_DOCTOR, ROLE_ADMIN);
     _setRoleAdmin(ROLE_USER, ROLE_ADMIN);
   }
 
-  struct doctorProfile {
-    address doctor_wallet;
-    string cid;
-  }
-
-  struct userProfile {
-    address user_wallet;
-    string cid;
+  /**
+    * @dev Function to add organization role from admin. 
+  */
+  function addDoctor(address newDoctor, bytes32 cid) public virtual {
+      grantRole(ROLE_DOCTOR, newDoctor);
+      _doctorRegister[newDoctor] = cid;
+      emit DoctorAdded(newDoctor, cid, "Doctor added");
   }
 
   /**
     * @dev Function to add organization role from admin. 
   */
-  function addDoctor(address newOrganization) public virtual () {
-      grantRole(ORGANIZATION_ROLE, newOrganization);
-      _organizationRegister[newOrganization].isActive = true;
+  function addUser(address newUser, bytes32 cid) public virtual {
+      grantRole(ROLE_USER, newUser);
+      _userRegister[newUser] = cid;
+      emit UserAdded(newUser, cid, "User added");
   }
-
-  /**
-    * @dev Function to add organization role from admin. 
-  */
-  function addUser(address newOrganization) public virtual () {
-      grantRole(ORGANIZATION_ROLE, newOrganization);
-      _organizationRegister[newOrganization].isActive = true;
-  }
-
-
-    
-    /**
-     * @dev Function to add producer role from admin.
-     */
-    function addFarmer(address newFarmer) public virtual whenNotPaused() {
-        grantRole(PRODUCER_ROLE, newFarmer);
-        _organizationRegister[msg.sender].members.push(newFarmer);
-        emit farmerAdded(newFarmer, msg.sender);
-    }
-
-
+  
 }
