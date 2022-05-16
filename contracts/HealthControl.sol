@@ -27,19 +27,19 @@ contract HealthControl is AccessControl {
   /**
     * @dev Function to add organization role from admin. 
   */
-  function addDoctor(address newDoctor, bytes32 cid) public virtual {
-      grantRole(ROLE_DOCTOR, newDoctor);
-      _doctorRegister[newDoctor] = cid;
-      emit DoctorAdded(newDoctor, cid, "Doctor added");
+  function addDoctor(address _newDoctor, bytes32 _doctorCidProfile) public virtual {
+      grantRole(ROLE_DOCTOR, _newDoctor);
+      _doctorRegister[_newDoctor] = _doctorCidProfile;
+      emit DoctorAdded(_newDoctor, _doctorCidProfile, "Doctor added");
   }
 
   /**
     * @dev Function to add organization role from admin. 
   */
-  function addUser(address newUser, bytes32 cid) public virtual {
-      grantRole(ROLE_USER, newUser);
-      _userRegister[newUser] = cid;
-      emit UserAdded(newUser, cid, "User added");
+  function addUser(address _newUser, bytes32 _userCidProfile) public virtual {
+      grantRole(ROLE_USER, _newUser);
+      _userRegister[_newUser] = _userCidProfile;
+      emit UserAdded(_newUser, _userCidProfile, "User added");
   }
   
 }
