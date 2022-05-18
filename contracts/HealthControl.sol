@@ -11,12 +11,13 @@ contract HealthControl is AccessControl {
   bytes32 public constant ROLE_ADMIN = keccak256("ROLE_ADMIN");
   bytes32 public constant ROLE_DOCTOR = keccak256("ROLE_DOCTOR");
   bytes32 public constant ROLE_USER = keccak256("ROLE_USER");
+  
 
-  mapping(address => bytes32) private _doctorRegister;
-  mapping(address => bytes32) private _userRegister;
+  mapping(address => string) private _doctorRegister;
+  mapping(address => string) private _userRegister;
 
-  event DoctorAdded(address indexed doctor, bytes32 indexed cid, string message); 
-  event UserAdded(address indexed user, bytes32 indexed cid, string message); 
+  event DoctorAdded(address indexed doctor, string message); 
+  event UserAdded(address indexed user, string message); 
 
   constructor (address admin) {
     _setupRole(ROLE_ADMIN, admin);
@@ -27,19 +28,19 @@ contract HealthControl is AccessControl {
   /**
     * @dev Function to add organization role from admin. 
   */
-  function addDoctor(address _newDoctor, bytes32 _doctorCidProfile) public virtual {
+  function addDoctor(address _newDoctor, string memory  _doctorCidProfile) public virtual {
       grantRole(ROLE_DOCTOR, _newDoctor);
       _doctorRegister[_newDoctor] = _doctorCidProfile;
-      emit DoctorAdded(_newDoctor, _doctorCidProfile, "Doctor added");
+      emit DoctorAdded(_newDoctor, "Doctor added");
   }
 
   /**
     * @dev Function to add organization role from admin. 
   */
-  function addUser(address _newUser, bytes32 _userCidProfile) public virtual {
+  function addUser(address _newUser, string memory _userCidProfile) public virtual {
       grantRole(ROLE_USER, _newUser);
       _userRegister[_newUser] = _userCidProfile;
-      emit UserAdded(_newUser, _userCidProfile, "User added");
+      emit UserAdded(_newUser, "User added");
   }
   
 }

@@ -25,6 +25,7 @@
   "homepage": "https://github.com/taks-jac/healt-on-chain#readme",
   "dependencies": {
     "@openzeppelin/contracts": "^4.6.0",
+    "bs58": "^5.0.0",
     "hardhat": "^2.9.3"
   },
   "devDependencies": {

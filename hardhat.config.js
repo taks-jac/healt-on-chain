@@ -1,6 +1,7 @@
 require("@nomiclabs/hardhat-waffle");
 require("hardhat-deploy-ethers");
 require("hardhat-deploy");
+require("hardhat-gas-reporter");
 require("dotenv").config();
 
 // MUMBAI NETWORK DATA
