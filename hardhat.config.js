@@ -1,6 +1,5 @@
 require("@nomiclabs/hardhat-waffle");
 require("hardhat-deploy-ethers");
-require('@openzeppelin/hardhat-upgrades');
 require("hardhat-deploy");
 require("dotenv").config();
 

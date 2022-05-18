@@ -34,7 +34,7 @@ contract HealthStore is Context {
   function addHistorial(address _user, bytes32 _userCidData) public {
     if (health_access.hasRole(ROLE_DOCTOR, _msgSender())) {
       revert("HealthStore: User is not a doctor");
-    } else if (health_access.hasRole(ROLE_USER, _user())) {
+    } else if (health_access.hasRole(ROLE_USER, _user)) {
       revert("HealthStore: User is not register");
     } else if (allowance(_user,_msgSender())) {
       revert("HealthStore: Doctor does not allowed");
@@ -48,7 +48,7 @@ contract HealthStore is Context {
   function viewHistorial(address _user) public view returns (bytes32) {
     if (health_access.hasRole(ROLE_DOCTOR, _msgSender())) {
       revert("HealthStore: User is not a doctor");
-    } else if (health_access.hasRole(ROLE_USER, _user())) {
+    } else if (health_access.hasRole(ROLE_USER, _user)) {
       revert("HealthStore: User is not register");
     } else if (allowance(_user,_msgSender())) {
       revert("HealthStore: Doctor does not allowed");
@@ -68,23 +68,23 @@ contract HealthStore is Context {
   /**
    * @dev Disable user.
    */
-  function disableUser(address user) public {
+  function disableUser(address _user) public {
     if (health_access.hasRole(ROLE_ADMIN, _msgSender())) {
       revert("HealthStore: User is not admin");
     }  
     _userRegister[_user].isActive = false;
     emit UserDisabled(_user, false);
-
+  }
   /**
    * @dev View allowance of doctor to access user data.   
    */
-  function allowance(address user, address doctor) public view virtual override returns (bool) {
-    return _allowances[user][doctor];
+  function allowance(address _user, address doctor) public view returns (bool) {
+    return _allowance[_user][doctor];
   }
 
-  function _approveDataUser(address user, address doctor, bool status) internal {
-    _allowances[user][doctor] = status;
-    emit UserApprove(user, doctor, status);
+  function _approveDataUser(address _user, address doctor, bool status) internal {
+    _allowance[_user][doctor] = status;
+    emit UserApprove(_user, doctor, status);
   }
 
  

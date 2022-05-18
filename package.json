@@ -4,7 +4,14 @@
   "description": "Smart contract of health descentralized data",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "hardhat test",
+    "compile": "hardhat compile",
+    "hardhat_accounts": "hardhat accounts",
+    "help": "hardhat help",
+    "clean": "hardhat clean",
+    "hardhat-console": "hardhat console",
+    "deploy-local": "hardhat run --network localhost scripts/00-deploy.js",
+    "deploy-mumbai": "hardhat run --network mumbai scripts/00-deploy.js"
   },
   "repository": {
     "type": "git",
@@ -35,6 +42,8 @@
     "eslint-plugin-promise": "^5.2.0",
     "ethereum-waffle": "^3.4.4",
     "ethers": "^5.6.5",
+    "hardhat-deploy": "^0.11.5",
+    "hardhat-deploy-ethers": "^0.3.0-beta.13",
     "hardhat-gas-reporter": "^1.0.8",
     "prettier": "^2.6.2",
     "prettier-plugin-solidity": "^1.0.0-beta.13",
