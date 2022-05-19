@@ -18,7 +18,7 @@ contract HealthStore is Context {
   struct UserData {
     address user;
     bool isActive;
-    bytes32 cid;
+    string cid;
   }
 
   mapping(address => UserData) private _userRegister;
@@ -31,28 +31,22 @@ contract HealthStore is Context {
   /**
    * @dev Updated user CID by adding new data.
    */
-  function addHistorial(address _user, bytes32 _userCidData) public {
-    if (health_access.hasRole(ROLE_DOCTOR, _msgSender())) {
-      revert("HealthStore: User is not a doctor");
-    } else if (health_access.hasRole(ROLE_USER, _user)) {
-      revert("HealthStore: User is not register");
-    } else if (allowance(_user,_msgSender())) {
-      revert("HealthStore: Doctor does not allowed");
-    } 
+  function addHistorial(address _user, string memory _userCidData) public {
+    require(health_access.hasRole(ROLE_DOCTOR, _msgSender()),"HealthStore: User is not a doctor");
+    require(health_access.hasRole(ROLE_USER, _user),"HealthStore: User is not register");
+    require(allowance(_user,_msgSender()),"HealthStore: Doctor does not allowed");
+  
     _userRegister[_user].cid = _userCidData;
   }
 
   /**
    * @dev View user CID.
    */
-  function viewHistorial(address _user) public view returns (bytes32) {
-    if (health_access.hasRole(ROLE_DOCTOR, _msgSender())) {
-      revert("HealthStore: User is not a doctor");
-    } else if (health_access.hasRole(ROLE_USER, _user)) {
-      revert("HealthStore: User is not register");
-    } else if (allowance(_user,_msgSender())) {
-      revert("HealthStore: Doctor does not allowed");
-    } 
+  function viewHistorial(address _user) public view returns (string memory) {
+    require(health_access.hasRole(ROLE_DOCTOR, _msgSender()),"HealthStore: User is not a doctor");
+    require(health_access.hasRole(ROLE_USER, _user),"HealthStore: User is not register");
+    require(allowance(_user,_msgSender()),"HealthStore: Doctor does not allowed");
+    
     return _userRegister[_user].cid;
   }
 
