@@ -23,7 +23,7 @@ contract HealthStore is Context {
 
   mapping(address => UserData) private _userRegister;
 
-  constructor(HealthControl _control_address ,address _admin) public {
+  constructor(HealthControl _control_address ,address _admin) {
     admin = _admin;
     health_access = _control_address;
   }
