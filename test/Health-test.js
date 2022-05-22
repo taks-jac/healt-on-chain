@@ -61,4 +61,35 @@ describe("HealthControl", function () {
     console.log("cid",view_history)  
  
   });
+
+  it("3. Should view user and doctor profile", async function () {
+    const [owner, admin,doctor,user1,user2] = await ethers.getSigners(); 
+    const HealthStructure = await ethers.getContractFactory("HealthControl");
+    const roles = await HealthStructure.deploy(admin.address);
+    await roles.deployed();
+    console.log("Health Structure deployed", roles.address);   
+
+    const role_org = ethers.utils.id("ROLE_DOCTOR")  
+    const doctor_cid = '0x6df1dff781c6d4b003ffc9288c7e7f0a8a75244ac271035db35249bd25a6de95'
+    const doctor_1 = await roles.connect(admin).addDoctor(doctor.address, doctor_cid);
+    const info_doctor = await roles.connect(admin).hasRole(role_org,doctor.address);
+    expect(info_doctor).to.equal(true);
+    console.log("Doctor added")
+
+    const role_user = ethers.utils.id("ROLE_USER")  
+    const user_cid = "0x6df1dff781c6d4b003ffc9288c7e7f0a8a75244ac271035db35249bd25a6de94"
+    const user_1 = await roles.connect(admin).addUser(user1.address,user_cid);
+    const info_user = await roles.connect(admin).hasRole(role_user,user1.address);
+    expect(info_user).to.equal(true);
+    console.log("User added")   
+
+    const view_user = await roles.connect(user1).viewUserProfile(user1.address)
+    console.log("user",view_user)
+
+    const view_doctor = await roles.connect(user1).viewDoctorProfile(doctor.address)
+    console.log("doctor",view_doctor)
+    
+  
+ 
+  });
 });

@@ -42,5 +42,18 @@ contract HealthControl is AccessControl {
       _userRegister[_newUser] = _userCidProfile;
       emit UserAdded(_newUser, "User added");
   }
+
+  function viewUserProfile(address _user) public view returns (bytes32) {
+    require(hasRole(ROLE_DOCTOR, _msgSender()) || _user==_msgSender(),"HealthControl: User is not allowed");
+    require(hasRole(ROLE_USER, _user),"HealthStore: User is not register");
+    
+    return _userRegister[_user];
+  }
+
+  function viewDoctorProfile(address _doctor) public view returns (bytes32) {
+    require(hasRole(ROLE_DOCTOR, _doctor),"HealthControl: Doctor is not register");
+    
+    return _doctorRegister[_doctor];
+  }
   
 }

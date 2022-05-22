@@ -42,12 +42,12 @@ contract HealthStore is Context {
   /**
    * @dev View user CID.
    */
-  function viewHistorial(address _user) public view returns (bytes32) {
+  function viewHistorial(address _user) public view returns (bytes32,bool) {
     require(health_access.hasRole(ROLE_DOCTOR, _msgSender()) || health_access.hasRole(ROLE_USER, _msgSender()) ,"HealthStore: User is not a doctor");
     require(health_access.hasRole(ROLE_USER, _user),"HealthStore: User is not register");
     require(allowance(_user,_msgSender()) || _user==_msgSender(),"HealthStore: Doctor does not allowed");
     
-    return _userRegister[_user].cid;
+    return (_userRegister[_user].cid,_userRegister[_user].isActive);
   }
 
   /**
